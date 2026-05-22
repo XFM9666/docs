@@ -1,40 +1,37 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: TrucklineMP Documentation
+description: Official documentation for TrucklineMP — the multiplayer experience for the hardcore trucking community.
+template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
-  image:
-    file: ../../assets/houston.webp
+  tagline: The multiplayer platform built for the hardcore trucking community.
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: Get Started
+      link: /guides/getting-started/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
+      variant: primary
+    - text: Server Rules
+      link: /guides/rules/
+      icon: document
       variant: minimal
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## Next steps
-
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+  <Card title="Getting Started" icon="rocket">
+    New to TrucklineMP? Set up your game and connect to the convoy in minutes.
+    [Read the guide →](/guides/getting-started/)
+  </Card>
+  <Card title="Server Rules" icon="warning">
+    Understand what's expected on the roads. Rules apply to all players at all times.
+    [Read the rules →](/guides/rules/)
+  </Card>
+  <Card title="Features" icon="star">
+    Explore what TrucklineMP offers — convoys, events, custom jobs, and more.
+    [Explore features →](/guides/features/)
+  </Card>
+  <Card title="FAQ" icon="question">
+    Can't connect? Getting banned? Find answers to the most common questions.
+    [Browse FAQ →](/guides/faq/)
+  </Card>
 </CardGrid>
