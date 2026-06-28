@@ -39,17 +39,17 @@ export default defineConfig({
 			],
 			sidebar: [
 				{
-					slug: 'guides/getting-started',
-					label: 'Introduction',
+					slug: 'guides/verified-vtc-program',
+					label: 'Verified VTC Program',
 					translations: {
-						pl: 'Wprowadzenie',
+						pl: 'Zweryfikowany Program VTC',
 					},
 				},
 				{
-					slug: 'guides/contributing',
-					label: 'Contributing',
+					slug: 'guides/partnered-vtc-program',
+					label: 'Partnered VTC Program',
 					translations: {
-						pl: 'Współtworzenie',
+						pl: 'Partnerski Program VTC',
 					},
 				},
 			],
