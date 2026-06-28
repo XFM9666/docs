@@ -39,18 +39,103 @@ export default defineConfig({
 			],
 			sidebar: [
 				{
-					slug: 'guides/verified-vtc-program',
-					label: 'Verified VTC Program',
-					translations: {
-						pl: 'Zweryfikowany Program VTC',
-					},
+					label: 'VTC Programs',
+					items: [
+						{
+							slug: 'guides/verified-vtc-program',
+							label: 'Verified VTC Program',
+							translations: {
+								pl: 'Zweryfikowany Program VTC',
+							},
+						},
+						{
+							slug: 'guides/partnered-vtc-program',
+							label: 'Partnered VTC Program',
+							translations: {
+								pl: 'Partnerski Program VTC',
+							},
+						},
+					],
 				},
 				{
-					slug: 'guides/partnered-vtc-program',
-					label: 'Partnered VTC Program',
-					translations: {
-						pl: 'Partnerski Program VTC',
-					},
+					label: 'VTC Guides',
+					items: [
+						{
+							slug: 'guides/vtc-general-settings',
+							label: 'General Settings',
+							translations: {
+								pl: 'Ustawienia Ogólne',
+							},
+						},
+						{
+							slug: 'guides/vtc-roles-permissions',
+							label: 'Roles & Permissions',
+							translations: {
+								pl: 'Role i Uprawnienia',
+							},
+						},
+						{
+							slug: 'guides/vtc-member-management',
+							label: 'Member Management',
+							translations: {
+								pl: 'Zarządzanie Członkami',
+							},
+						},
+						{
+							slug: 'guides/vtc-recruitment',
+							label: 'Recruitment',
+							translations: {
+								pl: 'Rekrutacja',
+							},
+						},
+						{
+							slug: 'guides/vtc-discord-verification',
+							label: 'Discord Verification',
+							translations: {
+								pl: 'Weryfikacja Discord',
+							},
+						},
+					],
+				},
+				{
+					label: 'Account Guides',
+					items: [
+						{
+							slug: 'guides/profile-settings',
+							label: 'Profile Settings',
+							translations: {
+								pl: 'Ustawienia Profilu',
+							},
+						},
+						{
+							slug: 'guides/account-security',
+							label: 'Account Security',
+							translations: {
+								pl: 'Bezpieczeństwo Konta',
+							},
+						},
+						{
+							slug: 'guides/connections',
+							label: 'Connections',
+							translations: {
+								pl: 'Połączenia',
+							},
+						},
+						{
+							slug: 'guides/appearance-preferences',
+							label: 'Appearance & Preferences',
+							translations: {
+								pl: 'Wygląd i Preferencje',
+							},
+						},
+						{
+							slug: 'guides/account-deletion',
+							label: 'Account Deletion',
+							translations: {
+								pl: 'Usunięcie Konta',
+							},
+						},
+					],
 				},
 			],
 		}),

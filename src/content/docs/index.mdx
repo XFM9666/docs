@@ -1,29 +1,81 @@
 ---
 title: TrucklineMP Documentation
-description: Official documentation for TrucklineMP VTC programs — Verified and Partnered VTC rules, requirements, and benefits.
+description: Official documentation for TrucklineMP — VTC programs, management guides, and user settings.
 template: splash
 hero:
   tagline: The multiplayer platform built for the hardcore trucking community.
   actions:
-    - text: Verified VTC Program
-      link: /guides/verified-vtc-program/
+    - text: VTC Guides
+      link: /guides/vtc-general-settings/
       icon: right-arrow
       variant: primary
-    - text: Partnered VTC Program
-      link: /guides/partnered-vtc-program/
-      icon: star
+    - text: Account Guides
+      link: /guides/profile-settings/
+      icon: setting
       variant: minimal
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
+## VTC Programs
+
 <CardGrid stagger>
-  <Card title="Verified VTC Program" icon="star">
+  <Card title="Verified VTC Program" icon="check-circle">
     Learn how to apply for Verified status, meet the requirements, and maintain your VTC's verification.
     [Read the rules →](/guides/verified-vtc-program/)
   </Card>
   <Card title="Partnered VTC Program" icon="star">
     Discover the benefits of becoming a Partnered VTC and the eligibility criteria for this elite status.
     [Learn more →](/guides/partnered-vtc-program/)
+  </Card>
+</CardGrid>
+
+## VTC Guides
+
+<CardGrid stagger>
+  <Card title="General Settings" icon="setting">
+    Configure your VTC's identity, social links, recruitment requirements, and core settings.
+    [Read the guide →](/guides/vtc-general-settings/)
+  </Card>
+  <Card title="Roles & Permissions" icon="user">
+    Create roles, assign permissions, and build your VTC's hierarchy.
+    [Read the guide →](/guides/vtc-roles-permissions/)
+  </Card>
+  <Card title="Member Management" icon="user">
+    Manage your member roster, assign roles, add staff notes, and handle member actions.
+    [Read the guide →](/guides/vtc-member-management/)
+  </Card>
+  <Card title="Recruitment" icon="document">
+    Configure application forms, custom questions, and manage how users apply to your VTC.
+    [Read the guide →](/guides/vtc-recruitment/)
+  </Card>
+  <Card title="Discord Verification" icon="external">
+    Link and verify your VTC's Discord server to display it on your public profile.
+    [Read the guide →](/guides/vtc-discord-verification/)
+  </Card>
+</CardGrid>
+
+## Account Guides
+
+<CardGrid stagger>
+  <Card title="Profile Settings" icon="user">
+    Configure your display name, social handle, profile picture, and social links.
+    [Read the guide →](/guides/profile-settings/)
+  </Card>
+  <Card title="Account Security" icon="lock">
+    Protect your account with two-factor authentication, session management, and privacy settings.
+    [Read the guide →](/guides/account-security/)
+  </Card>
+  <Card title="Connections" icon="external">
+    Link and manage external accounts — Discord, Google, YouTube, and Twitch.
+    [Read the guide →](/guides/connections/)
+  </Card>
+  <Card title="Appearance & Preferences" icon="setting">
+    Customize themes, manage authorized apps, export data, and configure forum settings.
+    [Read the guide →](/guides/appearance-preferences/)
+  </Card>
+  <Card title="Account Deletion" icon="trash">
+    Learn how to permanently delete your account and understand what happens when you do.
+    [Read the guide →](/guides/account-deletion/)
   </Card>
 </CardGrid>
