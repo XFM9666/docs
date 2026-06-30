@@ -1,0 +1,137 @@
+---
+title: Public API
+description: Authentication, base URLs, rate limits, and endpoint overview for the TrucklineMP Public REST API.
+---
+
+# Public API
+
+The TrucklineMP Public API is a read-only REST surface for third-party integrations. It exposes VTC directory data, events, news, user search, moderation records, and platform metadata.
+
+All endpoints are available without authentication. Passing a Developer Console API key increases your rate limits and links requests to your project.
+
+## Authentication
+
+Send your API key in the `Authorization` header:
+
+```
+Authorization: Bearer tl_YOUR_API_KEY
+```
+
+API keys:
+
+- Use the `tl_` prefix (for example `tl_a1b2c3...`).
+- Are created per project in the [Developer Console](https://trucklinemp.com/developer).
+- Are shown **once** at creation. Store them securely.
+- Provide **read-only** access to public data. They do not unlock private account actions or write operations.
+- Can be revoked at any time from the console.
+
+Invalid or revoked keys are ignored. The request is treated as anonymous and receives anonymous rate limits.
+
+### Session cookies
+
+Some endpoints return extra fields when you are logged in on trucklinemp.com and send session cookies with the request (for example, member-only VTC fields). This is optional and intended for first-party use. Third-party integrations should rely on API keys and OAuth where applicable.
+
+## Base URLs
+
+Choose the base URL that matches your environment:
+
+| Environment | Base URL | Notes |
+|-------------|----------|-------|
+| Production | `https://api.trucklinemp.com` | Recommended for live integrations |
+| Development | `https://api-dev.trucklinemp.com` | Staging / beta data |
+| Local | `http://localhost:3000/api/v1` | Local Web app dev server |
+| Same-origin | `https://trucklinemp.com/api/v1` | Used by the in-browser playground |
+
+### Important: do not double up `/v1`
+
+Production and development hostnames (`api.trucklinemp.com`, `api-dev.trucklinemp.com`) route through nginx. A request to:
+
+```
+https://api.trucklinemp.com/vtcs
+```
+
+is proxied to `/api/v1/vtcs` on the app. **Do not** append `/v1` to the hostname URL.
+
+Local development and same-origin requests use `/api/v1` directly:
+
+```
+http://localhost:3000/api/v1/vtcs
+https://trucklinemp.com/api/v1/vtcs
+```
+
+### Example request
+
+```bash
+curl "https://api.trucklinemp.com/version"
+
+curl -H "Authorization: Bearer tl_YOUR_API_KEY" \
+  "https://api.trucklinemp.com/vtcs?limit=10"
+```
+
+## Rate limits
+
+Limits apply per client IP for anonymous traffic and per API key (and IP) when a valid key is present. Limits are enforced over a **1-minute** window and a **5-minute** window. Exceeding either returns HTTP `429` with a `RATE_LIMITED` error.
+
+### Anonymous (no API key)
+
+| Window | Limit |
+|--------|-------|
+| 1 minute | 100 requests |
+| 5 minutes | 400 requests |
+
+### API key tiers
+
+| Tier | 1 minute | 5 minutes |
+|------|----------|-----------|
+| **free** (default) | 1,000 | 5,000 |
+| **basic** | 2,500 | 12,000 |
+| **premium** | 5,000 | 25,000 |
+| **unlimited** | 20,000 | 80,000 |
+
+Tier assignment is managed by TrucklineMP staff. Contact support if your integration needs a higher tier.
+
+### Best practices
+
+- Cache responses where possible. Many list endpoints support pagination.
+- Back off on `429` responses. Reduce concurrency before retrying.
+- Always send a valid API key in production. Anonymous limits are intended for light testing only.
+
+## Endpoint overview
+
+The OpenAPI spec at [trucklinemp.com/api/v1/openapi.json](https://trucklinemp.com/api/v1/openapi.json) is the source of truth. Major resource groups:
+
+| Group | Examples |
+|-------|----------|
+| **Platform** | `GET /version`, `GET /status`, `GET /rules`, `GET /partners`, `GET /stats` |
+| **VTCs** | `GET /vtcs`, `GET /vtcs/{idOrHandle}`, `GET /vtcs/{id}/members`, `GET /vtcs/{id}/news`, `GET /vtcs/{id}/events`, `GET /vtcs/{id}/roles` |
+| **Events** | `GET /events`, `GET /events/{eventId}`, `GET /events/{eventId}/attendees`, `GET /events/{eventId}/slots` |
+| **News** | `GET /news`, `GET /news/{newsId}` |
+| **Users** | `GET /users/search`, `GET /users/{handleOrId}`, `GET /users/{id}/bans`, `GET /users/{id}/events` |
+| **Bans** | `GET /bans`, `GET /bans/{id}` |
+| **Programs** | `GET /programs/badges/{slug}`, `GET /programs/recognition` |
+| **Session** | `GET /session` (cookie-based session introspection) |
+
+Path parameters such as `{idOrHandle}` accept either a numeric ID or a public handle where noted in the spec.
+
+## Error responses
+
+Common error codes:
+
+| Code | HTTP | Meaning |
+|------|------|---------|
+| `UNAUTHORIZED` | 401 | Missing or invalid credentials on a protected route |
+| `FORBIDDEN` | 403 | Valid auth but insufficient permission |
+| `NOT_FOUND` | 404 | Resource does not exist |
+| `RATE_LIMITED` | 429 | Rate limit exceeded |
+| `VALIDATION_ERROR` | 400 | Invalid query or path parameters |
+
+## Interactive tools
+
+- [API Playground](https://trucklinemp.com/developer/playground): send requests from the browser (uses same-origin `/api/v1`).
+- [ReDoc](https://trucklinemp.com/developers/redoc) / [Swagger](https://trucklinemp.com/developers/swagger): browse the full schema.
+
+## Related guides
+
+- [Developer Platform Overview](/guides/developers/overview/)
+- [OAuth Apps](/guides/developers/oauth-apps/) (user sign-in, not required for public read endpoints)
+- [Webhooks](/guides/developers/webhooks/) (event push notifications)

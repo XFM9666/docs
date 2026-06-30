@@ -1,0 +1,77 @@
+---
+title: Developer Platform Overview
+description: Get started with the TrucklineMP developer platform. Enable the console, create projects, and integrate with the Public API or OAuth.
+---
+
+# Developer Platform Overview
+
+TrucklineMP offers a developer platform for third-party integrations. You can read public platform data through the **Public API**, identify users with **OAuth 2.0**, and receive real-time updates through **webhooks**.
+
+This documentation covers concepts and workflows. For the full list of endpoints, request shapes, and response schemas, use the interactive API reference on the main site.
+
+## What you can build
+
+| Integration | Best for |
+|-------------|----------|
+| **Public API** | Bots, dashboards, stats sites, and tools that read VTCs, events, news, users, and moderation data |
+| **OAuth apps** | Apps that sign users in with their TrucklineMP account and read scoped profile data |
+| **Webhooks** | Services that react to platform events (member joins, bans, RSVPs, and more) |
+
+## Before you start
+
+1. Create a TrucklineMP account at [trucklinemp.com](https://trucklinemp.com).
+2. Enable **Developer Mode** in **Account Settings → Security → Developer Mode → Activate**.
+3. Open the [Developer Console](https://trucklinemp.com/developer) from the navbar or your security settings.
+
+Developer Mode unlocks the console. It does not grant elevated API permissions on its own. Public API endpoints remain read-only. OAuth scopes control what user data your app can access after a user authorizes it.
+
+## Quickstart: Public API
+
+1. In the Developer Console, create a **project**.
+2. Generate an API key (`tl_...` prefix). Copy it when shown. It cannot be viewed again.
+3. Send a request with your key:
+
+```bash
+curl -H "Authorization: Bearer tl_YOUR_API_KEY" \
+  "https://api.trucklinemp.com/vtcs"
+```
+
+4. Try endpoints interactively in the [API Playground](https://trucklinemp.com/developer/playground).
+
+Public read endpoints work **without** an API key. Keys raise your rate limits and attach usage to your project for analytics.
+
+## Quickstart: OAuth app
+
+1. In the Developer Console, go to **OAuth Apps** and create an app.
+2. Set **redirect URIs** and **scopes** on the OAuth settings page.
+3. Copy the **install link** from the app overview (or build your own authorize URL).
+4. While the app is unpublished, add **test users** so others can authorize it during development.
+5. When ready, complete domain verification and publish through the Publishing page.
+
+See [OAuth Apps](/guides/developers/oauth-apps/) for the full authorization flow, PKCE, and publishing rules.
+
+## Where to find API reference
+
+The canonical endpoint reference is generated from the live OpenAPI spec:
+
+| Resource | URL |
+|----------|-----|
+| OpenAPI JSON | [trucklinemp.com/api/v1/openapi.json](https://trucklinemp.com/api/v1/openapi.json) |
+| ReDoc | [trucklinemp.com/developers/redoc](https://trucklinemp.com/developers/redoc) |
+| Swagger UI | [trucklinemp.com/developers/swagger](https://trucklinemp.com/developers/swagger) |
+| Console docs | [trucklinemp.com/developer/docs](https://trucklinemp.com/developer/docs) |
+| Playground | [trucklinemp.com/developer/playground](https://trucklinemp.com/developer/playground) |
+
+## Documentation map
+
+| Guide | Topics |
+|-------|--------|
+| [Public API](/guides/developers/public-api/) | Authentication, base URLs, rate limits, endpoint overview |
+| [OAuth Apps](/guides/developers/oauth-apps/) | Authorization flow, scopes, test users, PKCE, publishing |
+| [Webhooks](/guides/developers/webhooks/) | Subscriptions, signatures, retries, event catalog |
+
+## Privacy and compliance
+
+API usage is logged for rate limiting, abuse prevention, and analytics. See the [Privacy Policy](https://id.trucklinemp.com/legal/privacy) for how telemetry is handled.
+
+OAuth apps must provide a **privacy policy URL** and should provide a **terms of service URL** before publishing.

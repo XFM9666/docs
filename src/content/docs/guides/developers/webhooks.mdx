@@ -1,0 +1,157 @@
+---
+title: Webhooks
+description: Subscribe to TrucklineMP platform events, verify HMAC signatures, and handle automatic retries.
+---
+
+# Webhooks
+
+Webhooks push event notifications to your HTTP endpoint when something changes on TrucklineMP. Configure them in the [Developer Console](https://trucklinemp.com/developer/webhooks).
+
+Webhooks complement the Public API. Use the API to poll or fetch data on demand. Use webhooks when your service should react immediately to platform changes.
+
+## Create a webhook
+
+1. Open **Webhooks** in the Developer Console.
+2. Click **Create Webhook**.
+3. Enter a name, HTTPS endpoint URL, and select the events you want.
+4. Copy the **signing secret** when it is shown. You need it to verify deliveries.
+
+Each webhook belongs to your developer account. You can create multiple endpoints for different environments (staging, production).
+
+## Delivery format
+
+TrucklineMP sends an HTTP `POST` with a JSON body:
+
+```json
+{
+  "event": "vtc.member_joined",
+  "event_id": "550e8400-e29b-41d4-a716-446655440000",
+  "timestamp": "2026-06-30T12:00:00.000Z",
+  "data": {
+    "vtcId": 42,
+    "userId": "user_abc",
+    "role": "Driver"
+  }
+}
+```
+
+### Request headers
+
+| Header | Description |
+|--------|-------------|
+| `Content-Type` | `application/json` |
+| `X-TrucklineMP-Signature` | HMAC-SHA256 signature (`sha256=<hex>`) |
+| `X-TrucklineMP-Event` | Event type (for example `vtc.member_joined`) |
+| `X-TrucklineMP-Delivery` | Unique delivery ID (matches `event_id`) |
+
+You can also attach custom headers in the webhook settings. Sensitive header names (`Authorization`, `Cookie`, and similar) are stripped from delivery logs.
+
+## Verify signatures
+
+Compute the expected signature over the **raw request body** using your webhook secret:
+
+```
+expected = "sha256=" + HMAC_SHA256(secret, raw_body)
+```
+
+Compare `expected` to the `X-TrucklineMP-Signature` header using a constant-time comparison. Reject requests with invalid signatures before processing the payload.
+
+Example (Node.js):
+
+```javascript
+import { createHmac, timingSafeEqual } from "crypto";
+
+function verifySignature(rawBody, signatureHeader, secret) {
+  const expected = "sha256=" + createHmac("sha256", secret).update(rawBody).digest("hex");
+  if (!signatureHeader || signatureHeader.length !== expected.length) return false;
+  return timingSafeEqual(Buffer.from(signatureHeader), Buffer.from(expected));
+}
+```
+
+## Retries
+
+Failed deliveries are retried automatically. Default retry delays:
+
+| Attempt | Delay after failure |
+|---------|---------------------|
+| 1 | 30 seconds |
+| 2 | 2 minutes |
+| 3 | 10 minutes |
+
+A delivery succeeds when your endpoint returns HTTP `2xx`. Redirects (`3xx`) are treated as failures. Timeouts default to 30 seconds per attempt.
+
+Delivery history and status are visible in the console. Use **Send Test** to trigger a `webhook.test` event against your endpoint.
+
+## Event catalog
+
+Subscribe only to events your integration needs.
+
+### Users
+
+| Event | Description |
+|-------|-------------|
+| `user.updated` | A user's profile was updated |
+| `user.banned` | A user was banned |
+| `user.unbanned` | A user's ban was removed |
+
+### VTCs
+
+| Event | Description |
+|-------|-------------|
+| `vtc.created` | A new VTC was created |
+| `vtc.member_joined` | A user joined a VTC |
+| `vtc.member_left` | A user left a VTC |
+| `vtc.updated` | VTC details were updated |
+
+### Events
+
+| Event | Description |
+|-------|-------------|
+| `event.created` | A new event was published |
+| `event.updated` | An event was updated |
+| `event.cancelled` | An event was cancelled |
+| `event.rsvp` | A user RSVPed to an event |
+
+### Moderation
+
+| Event | Description |
+|-------|-------------|
+| `ban.issued` | A ban was issued |
+| `ban.appealed` | A ban appeal was filed |
+| `ban.appeal_resolved` | A ban appeal was resolved |
+
+### API (account-level)
+
+| Event | Description |
+|-------|-------------|
+| `api.rate_limit_hit` | One of your API tokens hit its rate limit |
+| `api.token_revoked` | An API token was revoked |
+
+### Test
+
+| Event | Description |
+|-------|-------------|
+| `webhook.test` | Manual test delivery from the console |
+
+Exact payload fields vary by event. Treat `data` as the event-specific object and ignore unknown fields for forward compatibility.
+
+## Endpoint requirements
+
+- Use **HTTPS** in production.
+- Respond with `2xx` quickly. Offload heavy work to a background queue.
+- Return `2xx` only after you have accepted the payload. TrucklineMP will not retry successful deliveries.
+- Do not follow redirects on the receiving side. Redirect responses fail delivery.
+
+Private network URLs and unsafe destinations are blocked by the platform.
+
+## VTC announcement webhooks (separate feature)
+
+VTC owners can configure **Discord announcement webhooks** from their VTC management panel. Those webhooks post formatted embeds to Discord when VTC events occur (member joins, applications, and similar).
+
+Developer Console webhooks are different. They are account-level HTTP endpoints for your integration code. See [VTC Announcements](/guides/vtc-announcements/) for the Discord-focused feature.
+
+## Related guides
+
+- [Developer Platform Overview](/guides/developers/overview/)
+- [Public API](/guides/developers/public-api/)
+- [OAuth Apps](/guides/developers/oauth-apps/)

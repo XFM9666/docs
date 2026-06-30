@@ -215,6 +215,28 @@ export default defineConfig({
 					],
 				},
 				{
+					label: 'Developers',
+					collapsed: false,
+					items: [
+						{
+							slug: 'guides/developers/overview',
+							label: 'Platform Overview',
+						},
+						{
+							slug: 'guides/developers/public-api',
+							label: 'Public API',
+						},
+						{
+							slug: 'guides/developers/oauth-apps',
+							label: 'OAuth Apps',
+						},
+						{
+							slug: 'guides/developers/webhooks',
+							label: 'Webhooks',
+						},
+					],
+				},
+				{
 					label: 'Contribute',
 					collapsed: false,
 					items: [

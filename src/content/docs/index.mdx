@@ -30,6 +30,7 @@ import QuickLinks from '../../components/QuickLinks.astro';
   { label: 'VTC Programs', href: '#vtc-programs' },
   { label: 'VTC Guides', href: '#vtc-guides' },
   { label: 'Discord Bot', href: '#discord-bot' },
+  { label: 'Developers', href: '#developers' },
   { label: 'Account', href: '#account-guides' },
   { label: 'Contribute', href: '#contribute' },
 ]} />
@@ -104,6 +105,32 @@ import QuickLinks from '../../components/QuickLinks.astro';
     <Card title="Linked Roles" icon="external">
       Install the TrucklineMP bot and configure role requirements so members can verify and opt in to roles on your server.
       [Read the guide →](/guides/discord-linked-roles/)
+    </Card>
+  </CardGrid>
+</HomeSection>
+
+<HomeSection
+  id="developers"
+  title="Developers"
+  description="Build integrations with the TrucklineMP Public API, OAuth, and webhooks."
+  icon="document"
+>
+  <CardGrid stagger>
+    <Card title="Platform Overview" icon="rocket">
+      Enable Developer Mode, create projects, and choose between API keys, OAuth, or webhooks.
+      [Get started →](/guides/developers/overview/)
+    </Card>
+    <Card title="Public API" icon="document">
+      Authentication, base URLs, rate limits, and an endpoint overview for read-only REST access.
+      [Read the guide →](/guides/developers/public-api/)
+    </Card>
+    <Card title="OAuth Apps" icon="external">
+      Sign users in with TrucklineMP, configure PKCE, test users, and publish your application.
+      [Read the guide →](/guides/developers/oauth-apps/)
+    </Card>
+    <Card title="Webhooks" icon="external">
+      Subscribe to platform events, verify HMAC signatures, and handle automatic retries.
+      [Read the guide →](/guides/developers/webhooks/)
     </Card>
   </CardGrid>
 </HomeSection>
